@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Control Plane</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+</head>
+<body data-page="{{ page_id | default('') }}">
+  <div class="bg-grid"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>AWS Control Plane</h1>
+        <p>Service Catalog + Real-time AWS Automation</p>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <a class="btn-link" href="{{ url_for('web.home') }}">Services</a>
+      <a class="btn-link" href="{{ url_for('web.iam_identity_center_page') }}">IAM Identity Center</a>
+      <a class="btn-link" href="{{ url_for('web.state_import_page') }}">State Import</a>
+      <div id="status-pill" class="status-pill">Ready</div>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

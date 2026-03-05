@@ -1,0 +1,4 @@
+﻿Flask==3.1.1
+boto3==1.39.5
+python-dotenv==1.1.1
+gunicorn==23.0.0

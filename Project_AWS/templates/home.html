@@ -1,0 +1,34 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero card">
+  <h2>Service Catalog</h2>
+  <p>Select the AWS service module you want to operate.</p>
+</section>
+
+<section class="widget-grid">
+  <a class="service-widget" href="{{ url_for('web.iam_identity_center_page') }}">
+    <h3>IAM Identity Center</h3>
+    <p>Permission sets, assignments, policy attachment, org account provisioning.</p>
+    <span>Open Service</span>
+  </a>
+
+  <a class="service-widget" href="{{ url_for('web.state_import_page') }}">
+    <h3>State Import</h3>
+    <p>Import current AWS setup into an app state document for plan/apply workflows.</p>
+    <span>Open Service</span>
+  </a>
+
+  <article class="service-widget disabled">
+    <h3>IAM Roles (Next)</h3>
+    <p>Planned module for role trust policies and inline policy orchestration.</p>
+    <span>Coming Soon</span>
+  </article>
+
+  <article class="service-widget disabled">
+    <h3>CloudTrail Guardrails (Next)</h3>
+    <p>Planned security policy baseline and drift monitoring module.</p>
+    <span>Coming Soon</span>
+  </article>
+</section>
+{% endblock %}

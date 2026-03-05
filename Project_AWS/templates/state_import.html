@@ -1,0 +1,59 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero card">
+  <h2>AWS State Import</h2>
+  <p>Import full current AWS state (modular by service) and export reusable JSON.</p>
+</section>
+
+<section class="service-layout">
+  <aside class="module-sidebar card">
+    <h3>Modules</h3>
+    <nav class="module-nav" data-default="module-import">
+      <button type="button" data-target="module-import" class="active">Import Snapshot</button>
+      <button type="button" data-target="module-import-help">How Import Works</button>
+      <button type="button" data-target="module-audit">Recent Audit Log</button>
+    </nav>
+  </aside>
+
+  <div class="module-content">
+    <section id="module-import" class="card module-panel">
+      <label>Services To Import
+        <select id="import-modules" multiple></select>
+      </label>
+      <div class="inline-actions">
+        <button type="button" id="import-state-btn" class="btn-primary">Import From AWS</button>
+        <button type="button" id="copy-state-btn" class="btn-secondary">Copy JSON</button>
+      </div>
+      <pre id="state-output" class="json-box"></pre>
+    </section>
+
+    <section id="module-import-help" class="card module-panel hidden">
+      <h3>Import Behavior</h3>
+      <p class="muted">Import is read-only. It creates a state document by querying selected AWS service modules.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Step</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>1. Select modules</td><td>Choose services like IAM, EC2, S3, Organizations, Identity Center, CloudTrail.</td></tr>
+            <tr><td>2. Query AWS APIs</td><td>Collector runs each selected module independently.</td></tr>
+            <tr><td>3. Build unified snapshot</td><td>Returns one JSON with `meta` + `services` sections.</td></tr>
+            <tr><td>4. Handle partial access</td><td>If one service permission fails, error is recorded under `meta.errors` and others continue.</td></tr>
+            <tr><td>5. Use in workflows</td><td>Copy JSON to compare drift and build future plan/apply modules.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="module-audit" class="card module-panel hidden">
+      <h3>Recent Audit Events</h3>
+      <div class="table-wrap">
+        <table id="audit-table">
+          <thead><tr><th>When (UTC)</th><th>Actor</th><th>Action</th><th>Status</th><th>Target</th><th>Error</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}

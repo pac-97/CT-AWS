@@ -1,0 +1,102 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero card">
+  <h2>IAM Identity Center Workspace</h2>
+  <p>Operate permission sets, assignments, and drift controls from module-based panels.</p>
+  <div class="instance-meta" id="instance-meta"></div>
+</section>
+
+<section class="service-layout">
+  <aside class="module-sidebar card">
+    <h3>Modules</h3>
+    <nav class="module-nav" data-default="module-permission-set">
+      <button type="button" data-target="module-permission-set" class="active">Permission Set Builder</button>
+      <button type="button" data-target="module-assignment">Account Assignment</button>
+      <button type="button" data-target="module-drift">Drift Plan / Apply</button>
+      <button type="button" data-target="module-permission-table">Permission Set Inventory</button>
+      <button type="button" data-target="module-log">Operation Log</button>
+    </nav>
+  </aside>
+
+  <div class="module-content">
+    <section id="module-permission-set" class="card module-panel">
+      <h3>Create / Update Permission Set</h3>
+      <form id="permission-form">
+        <label>Name<input name="name" placeholder="Example: SecurityAudit-Prod" required /></label>
+        <label>Description<input name="description" placeholder="Least privilege for audit team" /></label>
+        <label>Session Duration<input name="session_duration" value="PT4H" /></label>
+
+        <label>Attach Existing Managed Policies (from AWS)
+          <select id="policy-catalog" multiple></select>
+        </label>
+        <button type="button" id="add-selected-policies" class="btn-secondary">Add Selected Policies</button>
+
+        <label>Managed Policy ARNs (selected)
+          <textarea name="managed_policy_arns" rows="4" placeholder="Selected policy ARNs will appear here"></textarea>
+        </label>
+
+        <label>Inline Policy JSON (optional)
+          <textarea name="inline_policy" rows="8" placeholder='{"Version":"2012-10-17","Statement":[]}'></textarea>
+        </label>
+
+        <label>Provision to Accounts
+          <select id="provision-accounts" name="provision_account_ids" multiple></select>
+        </label>
+        <button type="submit" class="btn-primary">Upsert and Push to AWS</button>
+      </form>
+    </section>
+
+    <section id="module-assignment" class="card module-panel hidden">
+      <h3>Create Account Assignment</h3>
+      <form id="assignment-form">
+        <label>Account
+          <select id="assign-account" name="account_id" required></select>
+        </label>
+        <label>Permission Set
+          <select id="assign-perm" name="permission_set_arn" required></select>
+        </label>
+        <label>Principal Type
+          <select name="principal_type" id="principal-type" required>
+            <option value="GROUP">GROUP</option>
+            <option value="USER">USER</option>
+          </select>
+        </label>
+        <label>Principal
+          <select id="principal-id" name="principal_id" required></select>
+        </label>
+        <button type="submit" class="btn-primary">Assign in Real Time</button>
+      </form>
+    </section>
+
+    <section id="module-drift" class="card module-panel hidden">
+      <h3>Drift Plan / Apply</h3>
+      <form id="drift-form">
+        <label>Desired State JSON
+          <textarea id="desired-state" rows="12" spellcheck="false" placeholder='{"permission_sets": []}'></textarea>
+        </label>
+        <div class="inline-actions">
+          <button type="button" id="plan-btn" class="btn-primary">Generate Plan</button>
+          <button type="button" id="apply-btn" class="btn-secondary">Apply Plan</button>
+        </div>
+      </form>
+      <pre id="plan-output" class="json-box"></pre>
+    </section>
+
+    <section id="module-permission-table" class="card module-panel hidden">
+      <h3>Permission Sets</h3>
+      <div class="table-wrap">
+        <table id="perm-table">
+          <thead><tr><th>Name</th><th>Description</th><th>Session</th><th>ARN</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="module-log" class="card module-panel hidden">
+      <h3>Operation Log</h3>
+      <pre id="log-box"></pre>
+    </section>
+  </div>
+</section>
+{% endblock %}
